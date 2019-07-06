@@ -1,13 +1,15 @@
 const int MAX_NUMBER = 255;
 const int LED_AMOUNT = 8;
+const int LED_DISPLACEMENT = 2;
 const unsigned long DELAY = 1000;
 int current = 0;
 unsigned long lastTime = 0;
 
 
 void setup() {
+  Serial.begin(9600);
   for(int i = 0; i < LED_AMOUNT; i++)
-    pinMode(i, OUTPUT);
+    pinMode(i + LED_DISPLACEMENT, OUTPUT);
 
   lastTime = millis();
 }
@@ -24,10 +26,12 @@ void loop() {
 
 void display(int number)
 {
-  for(int i = 0; i < LED_AMOUNT; i++)
+  for(int i = LED_AMOUNT - 1; i >= 0; i--)
   {
-    boolean on = (number << (LED_AMOUNT - (i+1))) & 1;
-    digitalWrite(i, on ? HIGH : LOW);
+    int baseTwo =  1 << (LED_AMOUNT - i - 1);
+    
+    boolean on = (number | baseTwo) == number;
+    digitalWrite(i + LED_DISPLACEMENT, on ? HIGH : LOW);
   }
 }
 
