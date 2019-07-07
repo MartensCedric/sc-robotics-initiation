@@ -3,12 +3,14 @@ const int LED_AMOUNT = 8;
 const int LED_DISPLACEMENT = 2;
 const int POTENTIOMETER_PIN = A0;
 const int RESET_PIN = 10;
+const int RESET = 1;
 unsigned long delayAmount = 1000;
 int current = 0;
 unsigned long lastTime = 0;
 
 
 void setup() {
+  Serial.begin(9600);
   for(int i = 0; i < LED_AMOUNT; i++)
     pinMode(i + LED_DISPLACEMENT, OUTPUT);
 
@@ -21,7 +23,7 @@ void setup() {
 void loop() {
   unsigned long currentTime = millis();
   delayAmount = analogRead(POTENTIOMETER_PIN) + 100;
-  if(digitalRead(RESET_PIN) == HIGH)
+  if(digitalRead(RESET_PIN) == HIGH || (Serial.available() > 0 && Serial.read() == RESET))
   {
     reset();
     digitalWrite(13, HIGH);
