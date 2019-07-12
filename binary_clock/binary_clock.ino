@@ -6,6 +6,7 @@ const int RESET_PIN = 10;
 const int RESET = 1;
 unsigned long delayAmount = 1000;
 int current = 0;
+int incomingByte = -1;
 unsigned long lastTime = 0;
 
 
@@ -23,7 +24,15 @@ void setup() {
 void loop() {
   unsigned long currentTime = millis();
   delayAmount = analogRead(POTENTIOMETER_PIN) + 100;
-  if(digitalRead(RESET_PIN) == HIGH || (Serial.available() > 0 && Serial.read() == RESET))
+  
+  if(Serial.available() > 0)
+  {
+    incomingByte = Serial.read();
+    Serial.print("Got : ");
+    Serial.print(incomingByte, DEC);
+  }
+  
+  if(digitalRead(RESET_PIN) == HIGH || incomingByte == RESET)
   {
     reset();
     digitalWrite(13, HIGH);
@@ -37,6 +46,8 @@ void loop() {
     setNextNumber();
     lastTime = currentTime;
   }
+
+  incomingByte = -1;
 }
 
 void display(int number)

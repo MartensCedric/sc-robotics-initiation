@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 RESET = 1
 
-port = "/dev/ttyUSB0"
+port = "/dev/ttyUSB1"
 print("Connecting to :" + port)
 ser = serial.Serial(port,baudrate = 9600, timeout=1)
 
