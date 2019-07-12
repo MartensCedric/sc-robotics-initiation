@@ -32,6 +32,7 @@ def index():
 
 @app.route("/reset")
 def reset():
+        global currentNumber
 	ser.write(struct.pack('>B', RESET))
         currentNumber = struct.pack('>B', 0)
 	return redirect(url_for('index'))
