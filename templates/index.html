@@ -1,3 +1,4 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <head>
   <title>Binary Chronometer - Space Concordia Robotics</title>
 </head>
@@ -5,12 +6,21 @@
   <div class=".info">
     <h1>Binary Chronometer</h1>
     <h4>Binary Display</h4>
-    <label>00000000</label>
-    <h4>Base 10 Display<h4>
-    <label>0</label>
+    <label id="bin">00000000</label>
+    <h4>Base 10 Display</h4>
+    <label id="bten">0</label>
   </div>
   <form action="/reset" method="get">
-    <input type="submit" value="reset"></input>
+    <input type="submit" value="Reset"></input>
   </form>
 </body>
 </html>
+<script>
+setInterval(function() {
+  $.getJSON('http://127.0.0.1:5000/time', function(data) {
+      console.log(data[0]);
+      $("#bten").html(data[0]);
+      $("#bin").html(("00000000" + data[0].toString(2)).substr(-8));
+  });
+}, 100);
+</script>

@@ -28,8 +28,6 @@ void loop() {
   if(Serial.available() > 0)
   {
     incomingByte = Serial.read();
-    Serial.print("Got : ");
-    Serial.print(incomingByte, DEC);
   }
   
   if(digitalRead(RESET_PIN) == HIGH || incomingByte == RESET)
@@ -43,6 +41,7 @@ void loop() {
   if(currentTime >= lastTime + delayAmount)
   {
     display(current);
+    Serial.write(current);
     setNextNumber();
     lastTime = currentTime;
   }
